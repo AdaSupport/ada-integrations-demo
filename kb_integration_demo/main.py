@@ -28,7 +28,7 @@ def oauth_authorize():
     As part of this you will want to:
     - Exchange the authorization code for access and refresh tokens
     - Store tokens, as well as installation details
-    - Redirect to your confirmation page for connecting to the 3rd party system
+    - Redirect to your confirmation page for connecting to the Knowledge Hub
     """
     referer_url = request.headers.get("Referer")
     code = request.args.get("code")
@@ -95,11 +95,11 @@ def oauth_authorize():
 
 @app.route("/oauth/complete", methods=["GET"])
 def oauth_complete():
-    """Called when the user approves connection to the 3rd party system
+    """Called when the user approves connection to the Knowledge Hub
 
     As part of this you will want to:
     - Update the installation's status to "complete" if all setup is complete
-    - Pull data from the 3rd party system that you would like to replicate in Ada (e.g. knowledge articles)
+    - Pull data from the Knowledge Hub that you would like to replicate in Ada (e.g. knowledge articles)
     - Redirect to Ada's connection success page
     """
     installation_id = request.args.get("installation-id")
@@ -136,7 +136,7 @@ def oauth_complete():
         )
         return _redirect_to_ada_error(installer_base_url, Config.integration_id)
 
-    # Bulk import knowledge articles from 3rd party system to Ada
+    # Bulk import knowledge articles from the Knowledge Hub to Ada
     # requires articles:write scope
     knowledge_articles_url = f"{installer_base_url}/api/v2/knowledge/bulk/articles"
     headers = {"Authorization": f"Bearer {installation.access_token}"}
