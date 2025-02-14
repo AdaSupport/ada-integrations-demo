@@ -99,7 +99,7 @@ def oauth_complete():
 
     As part of this you will want to:
     - Update the installation's status to "complete" if all setup is complete
-    - Pull data from the Knowledge Hub that you would like to replicate in Ada (e.g. knowledge articles)
+    - Pull data (e.g. articles) from the Cool Shop Knowledge Hub that you would like to replicate in Ada
     - Redirect to Ada's connection success page
     """
     installation_id = request.args.get("installation-id")
