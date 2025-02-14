@@ -28,7 +28,7 @@ def oauth_authorize():
     As part of this you will want to:
     - Exchange the authorization code for access and refresh tokens
     - Store tokens, as well as installation details
-    - Optionally redirect to a confirmation page to connect to the 3rd party system
+    - Redirect to your confirmation page for connecting to the 3rd party system
     """
     referer_url = request.headers.get("Referer")
     code = request.args.get("code")
