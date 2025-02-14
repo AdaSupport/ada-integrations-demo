@@ -186,7 +186,6 @@ def uninstall():
 
     if encoded_signature != signature:
         logger.warning("signature mismatch")
-        logger.warning(f"{request_method}\n{uninstall_url}\n{request_body}\n{timestamp}")
         return "Unauthorized", 401
 
     database.delete_installation(installation_id)
