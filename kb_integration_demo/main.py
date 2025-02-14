@@ -142,8 +142,8 @@ def oauth_complete():
     headers = {"Authorization": f"Bearer {installation.access_token}"}
     payload = [
         {
-            "id": f"kb-integration-demo-article-{installation_id}",
-            "knowledge_source_id": f"kb-integration-demo-{installation_id}",
+            "id": f"cool-shop-knowledge-hub-article-{installation_id}",
+            "knowledge_source_id": f"cool-shop-knowledge-hub-{installation_id}",
             "name": "Article Title",
             "content": "Article Content",
         }
