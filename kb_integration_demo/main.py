@@ -124,7 +124,7 @@ def oauth_complete():
     headers = {"Authorization": f"Bearer {installation.access_token}"}
     payload = {
         "id": f"cool-shop-knowledge-hub-{installation_id}",
-        "name": f"KB Integration Demo",
+        "name": f"Cool Shop Knowledge Hub",
     }
     knowledge_source_response = requests.post(
         knowledge_source_url, headers=headers, json=payload
