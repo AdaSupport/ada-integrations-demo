@@ -123,7 +123,7 @@ def oauth_complete():
     knowledge_source_url = f"{installer_base_url}/api/v2/knowledge/sources"
     headers = {"Authorization": f"Bearer {installation.access_token}"}
     payload = {
-        "id": f"kb-integration-demo-{installation_id}",
+        "id": f"cool-shop-knowledge-hub-{installation_id}",
         "name": f"KB Integration Demo",
     }
     knowledge_source_response = requests.post(
