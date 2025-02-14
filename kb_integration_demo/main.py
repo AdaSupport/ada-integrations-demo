@@ -95,7 +95,7 @@ def oauth_authorize():
 
 @app.route("/oauth/complete", methods=["GET"])
 def oauth_complete():
-    """Called when the user approves connection to the Knowledge Hub
+    """Called when the Ada user approves connection to the Knowledge Hub
 
     As part of this you will want to:
     - Update the installation's status to "complete" if all setup is complete
@@ -161,7 +161,7 @@ def oauth_complete():
 
 @app.route("/uninstall", methods=["DELETE"])
 def uninstall():
-    """Called when a user uninstalls this integration from their Ada instance
+    """Called when a Ada user uninstalls this integration from their Ada instance
     
     As part of this you will want to:
     - verify the signature of the request to confirm it's from Ada
