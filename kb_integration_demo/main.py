@@ -130,7 +130,6 @@ def oauth_complete():
         knowledge_source_url, headers=headers, json=payload
     )
     if knowledge_source_response.status_code != 200:
-        logger.warning(knowledge_source_response.text)
         logger.warning(
             "failed to create knowledge source",
             extra={"status_code": knowledge_source_response.status_code},
@@ -151,7 +150,6 @@ def oauth_complete():
     ]
     knowledge_articles_response = requests.post(knowledge_articles_url, headers=headers, json=payload)
     if knowledge_articles_response.status_code != 200:
-        logger.warning(knowledge_articles_response.text)
         logger.warning(
             "failed to bulk import knowledge articles",
             extra={"status_code": knowledge_articles_response.status_code},
