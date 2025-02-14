@@ -194,7 +194,6 @@ def uninstall():
     return "OK", 204
 
 
-
 def _redirect_to_ada_error(base_url, integration_id):
     return redirect(
         f"{base_url}/platform/integrations/{integration_id}/connections/error"
