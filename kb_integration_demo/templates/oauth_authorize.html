@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cool Shop Knowledge Hub Integration</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+            },
+          }
+        }
+      </script>
+</head>
+<body class="subpixel-antialiased bg-sky-800">
+    <div class="p-5 h-screen">
+        <div class="rounded-lg bg-white p-10 h-full">
+            <h1 class="text-4xl tracking-tight text-slate-700 font-bold mb-2">Cool Shop Knowledge Hub</h1>
+            <p class="text-lg text-slate-500">The Cool Shop Knowledge Hub Integration would like to access your account. Carefully review the permissions below before allowing access to your account.</p>
+
+            <h2 class="text-base font-light text-slate-400 mt-6">Requested Permissions:</h2>
+            <div class="overflow-hidden rounded-md border border-gray-200 bg-white mt-2">
+                <ul role="list" class="divide-y divide-gray-300">
+                    <li class="px-6 py-4">
+                        <h4 class="text-l text-slate-700 font-medium">Account Information</h4>
+                        <p class="text-sm text-slate-500">Ability to read your account information including name, and email</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex justify-end mt-8">
+                <a href="{{installer_base_url}}/platform/integrations/{{integration_id}}/connections/error" class="rounded-md bg-white px-5 py-2.5 mr-5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Cancel</a>
+                
+                <a href="/oauth/complete?installation-id={{installation_id}}" class="inline-flex items-center gap-x-2 rounded-md bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Allow Access
+                    <svg class="-mr-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
