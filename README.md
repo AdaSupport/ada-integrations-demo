@@ -9,3 +9,6 @@ This code covers the following aspects of building an integration:
 - Handle installations from an Ada instance
 
 For questions or support, please email developer-partnerships@ada.support
+
+> [!IMPORTANT]
+> This code is for example use only, and modifications may be needed to run this code. Additionally, pull requests and/or issues for this repository will not be monitored.
