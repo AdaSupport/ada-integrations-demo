@@ -32,14 +32,14 @@ def oauth_authorize():
     """
     referer_url = request.headers.get("Referer")
     code = request.args.get("code")
-    integrator_base_url = BASE_URL_TEMPLATE.format(Config.creator_bot_handle)
+    integrator_base_url = BASE_URL_TEMPLATE.format(Config.ADA_CREATOR_BOT_HANDLE)
 
     # Exchange code for access and refresh tokens
     token_url = f"{integrator_base_url}/api/platform_integrations/oauth/token"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     payload = {
-        "client_id": Config.integration_id,
-        "client_secret": Config.integration_secret,
+        "client_id": Config.ADA_INTEGRATION_ID,
+        "client_secret": Config.ADA_INTEGRATION_SECRET,
         "code": code,
         "grant_type": "authorization_code",
     }
@@ -50,7 +50,7 @@ def oauth_authorize():
             "failed to exchange code for tokens",
             extra={"status_code": token_response.status_code},
         )
-        return _redirect_to_ada_error(referer_url, Config.integration_id)
+        return _redirect_to_ada_error(referer_url, Config.ADA_INTEGRATION_ID)
 
     token_data = token_response.json()
     access_token = token_data["access_token"]
@@ -68,7 +68,7 @@ def oauth_authorize():
             "failed to get installation details",
             extra={"status_code": fetch_self_response.status_code},
         )
-        return _redirect_to_ada_error(referer_url, Config.integration_id)
+        return _redirect_to_ada_error(referer_url, Config.ADA_INTEGRATION_ID)
 
     fetch_self_data = fetch_self_response.json()
     installation_id = fetch_self_data["platform_integration_installation_id"]
@@ -88,7 +88,7 @@ def oauth_authorize():
     return render_template(
         "oauth_authorize.html",
         installation_id=installation_id,
-        integration_id=Config.integration_id,
+        integration_id=Config.ADA_INTEGRATION_ID,
         installer_base_url=installer_base_url,
     )
 
@@ -107,7 +107,7 @@ def oauth_complete():
     installer_base_url = BASE_URL_TEMPLATE.format(installation.installer_bot_handle)
 
     # Update installation status to "complete"
-    installation_update_url = f"{installer_base_url}/api/v2/platform-integrations/{Config.integration_id}/installations/{installation_id}"
+    installation_update_url = f"{installer_base_url}/api/v2/platform-integrations/{Config.ADA_INTEGRATION_ID}/installations/{installation_id}"
     headers = {"Authorization": f"Bearer {installation.access_token}"}
     payload = {"status": "complete"}
     installation_update_response = requests.patch(installation_update_url, headers=headers, json=payload)
@@ -116,7 +116,7 @@ def oauth_complete():
             "failed to update installation status",
             extra={"status_code": installation_update_response.status_code},
         )
-        return _redirect_to_ada_error(installer_base_url, Config.integration_id)
+        return _redirect_to_ada_error(installer_base_url, Config.ADA_INTEGRATION_ID)
 
     # Create a new Knowledge Source
     # requires knowledge_sources:write scope
@@ -134,7 +134,7 @@ def oauth_complete():
             "failed to create knowledge source",
             extra={"status_code": knowledge_source_response.status_code},
         )
-        return _redirect_to_ada_error(installer_base_url, Config.integration_id)
+        return _redirect_to_ada_error(installer_base_url, Config.ADA_INTEGRATION_ID)
 
     # Bulk import knowledge articles from the Cool Shop Knowledge Hub to Ada
     # requires articles:write scope
@@ -154,9 +154,9 @@ def oauth_complete():
             "failed to bulk import knowledge articles",
             extra={"status_code": knowledge_articles_response.status_code},
         )
-        return _redirect_to_ada_error(installer_base_url, Config.integration_id)
+        return _redirect_to_ada_error(installer_base_url, Config.ADA_INTEGRATION_ID)
 
-    return _redirect_to_ada_success(installer_base_url, Config.integration_id)
+    return _redirect_to_ada_success(installer_base_url, Config.ADA_INTEGRATION_ID)
 
 
 @app.route("/uninstall", methods=["DELETE"])
@@ -210,12 +210,12 @@ def _refresh_access_token(installation):
     if installation.expiry_ts > datetime.now(UTC):
         return installation
 
-    integrator_base_url = BASE_URL_TEMPLATE.format(Config.creator_bot_handle)
+    integrator_base_url = BASE_URL_TEMPLATE.format(Config.ADA_CREATOR_BOT_HANDLE)
     token_url = f"{integrator_base_url}/api/platform_integrations/oauth/token"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     payload = {
-        "client_id": Config.integration_id,
-        "client_secret": Config.integration_secret,
+        "client_id": Config.ADA_INTEGRATION_ID,
+        "client_secret": Config.ADA_INTEGRATION_SECRET,
         "refresh_token": installation.refresh_token,
         "grant_type": "refresh_token",
     }
