@@ -1,19 +1,18 @@
 # Ada Knowledge Base Integration Demo
 
-This is an example Knowledge integration that demonstrates how to integrate a third-party knowledge base with Ada's AI Agent. The integration syncs articles from a third-party knowledge base to Ada's AI Agent, enabling seamless knowledge sharing and updates.
+This is an example Knowledge integration. Learn how to take a third-party knowledge base, _Cool Shop Knowledge Hub_, and create an Ada Platform integration to sync articles from the Cool Shop Knowledge Hub to Ada's AI Agent.
 
-## Features
+This code covers the following aspects of building an integration:
 
-- OAuth-based authentication with Ada Platform
-- Automatic token refresh handling
-- Installation flow management for Ada instances
-- Knowledge base synchronization
+- Setting up an integration server to handle OAuth callbacks from Ada, refresh tokens for Ada API access, and complete an installation flow to an Ada instance
+- Register the integration with Ada, including required Ada API scopes and any configuration details needed to connect the third party system (e.g. Cool Shop Knowledge Hub) with Ada
+- Handle installations from an Ada instance
 
 ## Prerequisites
 
 - Python 3.12
-- Make (for using the Makefile)
-- A tool to expose your local server to the internet
+- Make
+- A tool to expose your local server to the internet (ngrok)
 - Ada Platform account with appropriate permissions
 
 ## Quick Start
@@ -37,7 +36,7 @@ This is an example Knowledge integration that demonstrates how to integrate a th
 
 4. Start a tunnel to your local server using ngrok (or your preferred tool):
    ```bash
-   ngrok http <APP_PORT>
+   ngrok http <APP_PORT> --url <YOUR_TUNNEL_URL>
    ```
 
 5. Create a Platform Integration:
@@ -45,73 +44,73 @@ This is an example Knowledge integration that demonstrates how to integrate a th
    - Use the API key to create a new platform integration with the following details:
      - Name: Your integration name
      - Description: Description of your integration
-     - Uninstallation URL: `https://<your-tunnel-url>/uninstall`
-     - OAuth Callback URL: `https://<your-tunnel-url>/oauth/callback`
+     - Uninstallation URL: `https://<YOUR_TUNNEL_URL>/uninstall`
+     - OAuth Callback URL: `https://<YOUR_TUNNEL_URL>/oauth/callback`
      - Scopes: `articles:read`, `knowledge_sources:write`
    - Note the integration ID and client secret
+    <details>
+    <summary>Create a new platform integration using the following v2 API</summary>
 
-<details>
-<summary>Create a new platform integration using the following v2 API</summary>
+    > [!IMPORTANT]
+    > Update the `uninstallation_url` and `oauth_callback_url` accordingly
 
-> [!IMPORTANT]
-> Update the `uninstallation_url` and `oauth_callback_url` accordingly
+    > [!TIP]
+    > The contents of `configuration_fields` in the request body can be any valid json schema
 
-> [!TIP]
-> The contents of `configuration_fields` in the request body can be any valid json schema
+    ```
+    [POST] /v2/platform-integrations
 
-```
-[POST] /v2/platform-integrations
+    Headers:
+    Authorization: Bearer <plat_api_key>
+    Content-Type: application/json
 
-Headers:
-Authorization: Bearer <plat_api_key>
-Content-Type: application/json
-
-Body:
-{
-    "name": "Cool Shop Knowledge Hub",
-    "description": "Power your AI Agent with Cool Shop Knowledge Hub",
-    "author": "Ada",
-    "contact": "developer-partnerships@ada.support",
-    "uninstallation_url": "https://<your-tunnel-url>/uninstall",
-    "oauth_callback_url": "https://<your-tunnel-url>/oauth/authorize",
-    "tags": [
-        "knowledge"
-    ],
-    "scopes": [
-        "articles:read",
-        "knowledge_sources:write"
-    ],
-    "configuration_fields": {
-        "title": "Connect to Cool Shop Knowledge Hub",
-        "required": [
-            "credentials"
+    Body:
+    {
+        "name": "Cool Shop Knowledge Hub",
+        "description": "Power your AI Agent with Cool Shop Knowledge Hub",
+        "author": "Ada",
+        "contact": "developer-partnerships@ada.support",
+        "uninstallation_url": "https://<YOUR_TUNNEL_URL>/uninstall",
+        "oauth_callback_url": "https://<YOUR_TUNNEL_URL>/oauth/authorize",
+        "tags": [
+            "knowledge"
         ],
-        "properties": {
-            "credentials": {
-                "properties": {
-                    "installation_name": {
-                        "type": "string",
-                        "title": "Cool Shop Knowledge Hub",
-                        "description": "How your installation will appear in Ada"
-                    }
-                },
-                "required": [
-                    "installation_name"
-                ]
+        "scopes": [
+            "articles:read",
+            "knowledge_sources:write"
+        ],
+        "configuration_fields": {
+            "title": "Connect to Cool Shop Knowledge Hub",
+            "required": [
+                "credentials"
+            ],
+            "properties": {
+                "credentials": {
+                    "properties": {
+                        "installation_name": {
+                            "type": "string",
+                            "title": "Cool Shop Knowledge Hub",
+                            "description": "How your installation will appear in Ada"
+                        }
+                    },
+                    "required": [
+                        "installation_name"
+                    ]
+                }
             }
-        }
-    },
-    "identifier_field_path": "credentials.installation_name"
-}
-```
-</details>
+        },
+        "identifier_field_path": "credentials.installation_name"
+    }
+    ```
+    </details>
+
+
 
 6. Update your `.env` file with the integration details:
    ```
    ADA_INTEGRATION_ID=your_integration_id
    ADA_INTEGRATION_SECRET=your_client_secret
    ADA_CREATOR_BOT_HANDLE=your_bot_handle
-   ADA_BASE_URL=https://{}.ada.support
    ```
 
 7. Start the application:
@@ -119,7 +118,7 @@ Body:
    make run
    ```
 
-8. In your web browser navigate to {ADA_BASE_URL}/platform/integrations/{ADA_INTEGRATION_ID}
+8. In your web browser navigate to `https://<ADA_CREATOR_BOT_HANDLE>.ada.support/platform/integrations/<ADA_INTEGRATION_ID>`
 
 9. You should now see your integration; click Connect and complete the setup
 
